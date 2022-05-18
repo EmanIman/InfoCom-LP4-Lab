@@ -17,23 +17,25 @@ class DroneCommunicator:
         return {'from' : order.coordinatesFrom, 'to' : order.coordinatesTo}
 
     def queueLoop(self):
-        nbr = self.redis_server.llen("OrderQueue")
-        print(f"Idle loop, Orders In Queue: {nbr}")
-        if (self.redis_server.llen("OrderQueue") > 0):
-            drones = {"Test": '10.11.44.126', "drone124": '10.11.44.124'}
-            drone = None
-            for k, v in drones.items():
-                print(k)
-                info = self.redis_server.get(k)
-                print(info)
-                if info != None:
-                    info = json.loads(info)
-                    if info['status'] == 'idle':
-                        drone = v
-                        break
-            
-            if drone != None:
-                self.send_request("http://" + drone + ":5000")
+        while True:
+            sleep(3)
+            nbr = self.redis_server.llen("OrderQueue")
+            print(f"Idle loop, Orders In Queue: {nbr}")
+            if (self.redis_server.llen("OrderQueue") > 0):
+                drones = {"Test": '10.11.44.126', "drone124": '10.11.44.124'}
+                drone = None
+                for k, v in drones.items():
+                    print(k)
+                    info = self.redis_server.get(k)
+                    print(info)
+                    if info != None:
+                        info = json.loads(info)
+                        if info['status'] == 'idle':
+                            drone = v
+                            break
+                
+                if drone != None:
+                    self.send_request("http://" + drone + ":5000")
 
 
 

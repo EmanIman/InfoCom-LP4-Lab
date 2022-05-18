@@ -16,7 +16,7 @@ class DroneCommunicator:
     def get_coords(self, order):
         return {'from' : order.coordinatesFrom, 'to' : order.coordinatesTo}
 
-    def queueLoop(self, redis_server):
+    def queueLoop(self):
         nbr = self.redis_server.llen("OrderQueue")
         print(f"Idle loop, Orders In Queue: {nbr}")
         if (self.redis_server.llen("OrderQueue") > 0):

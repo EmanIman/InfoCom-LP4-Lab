@@ -93,6 +93,6 @@ class DroneCommunicator:
 
 
 
-# if __name__ == "__main__":
-#     dc = DroneCommunicator()
-#     dc.queueLoop()
+if __name__ == "__main__":
+    dc = DroneCommunicator()
+    dc.queueLoop()

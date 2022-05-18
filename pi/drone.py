@@ -48,7 +48,7 @@ def main():
     with open('data.json', 'r') as f:
         data = json.load(f)
     print("innan coords")
-    # coords = request.json
+    coords = request.json
     order = redis_server.lpop("OrderQueue")
     order = json.loads(order, object_hook=Order.from_json)
     print("sending req to drone cool")

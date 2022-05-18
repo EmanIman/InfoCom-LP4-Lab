@@ -9,22 +9,22 @@ class DroneCommunicator:
     def __init__(self):
         self.redis_server = redis.Redis("localhost", decode_responses=True, charset="unicode_escape")
     
-    def send_request(drone_url):
+    def send_request(self, drone_url):
         with requests.Session() as session:
             resp = session.post(drone_url)
 
-    def get_coords(order):
+    def get_coords(self, order):
         return {'from' : order.coordinatesFrom, 'to' : order.coordinatesTo}
 
-    def queueLoop(redis_server):
-        nbr = redis_server.llen("OrderQueue")
+    def queueLoop(self, redis_server):
+        nbr = self.redis_server.llen("OrderQueue")
         print(f"Idle loop, Orders In Queue: {nbr}")
-        if (redis_server.llen("OrderQueue") > 0):
+        if (self.redis_server.llen("OrderQueue") > 0):
             drones = {"Test": '10.11.44.126', "drone124": '10.11.44.124'}
             drone = None
             for k, v in drones.items():
                 print(k)
-                info = redis_server.get(k)
+                info = self.redis_server.get(k)
                 print(info)
                 if info != None:
                     info = json.loads(info)
@@ -33,7 +33,7 @@ class DroneCommunicator:
                         break
             
             if drone != None:
-                DroneCommunicator.send_request("http://" + drone + ":5000")
+                self.send_request("http://" + drone + ":5000")
 
 
 

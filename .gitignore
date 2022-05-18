@@ -4,3 +4,4 @@
 *icloud
 *.rdb
 test.*
+drone_backup.py

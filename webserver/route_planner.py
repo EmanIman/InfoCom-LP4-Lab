@@ -1,4 +1,3 @@
-from cmath import pi
 from flask import Flask, request, render_template, jsonify
 from flask.globals import current_app 
 from geopy.geocoders import Nominatim
@@ -6,10 +5,8 @@ from flask_cors import CORS
 import redis
 import json
 import requests
-from DroneCommunicator import DroneCommunicator
 from order import Order
-from collections import deque
-import threading
+import socket
 
 app = Flask(__name__)
 CORS(app, supports_credentials=True)
@@ -68,7 +65,7 @@ def route_planner():
             # push the order to the queue then figure out which script to run to check if drone is done
         else:
             # 2. Get the IP of available drone, 
-            DRONE_URL = 'http://' + drone +':5000'
+            # DRONE_URL = 'http://' + drone +':5000'
             # 3. Send coords to the URL of available drone
             # send_request(DRONE_URL, coords)
             message = 'Got address and placed order in queue'
@@ -77,7 +74,14 @@ def route_planner():
         order = order.to_json()
         print("Order Created")
         print(order)
-        redis_server.rpush("OrderQueue", order)
+        # redis_server.rpush("OrderQueue", order)
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        s.connect((socket.gethostname(), 1234))
+        s.send(order)
+
+        # maybe dont need this and can move the connection part to if __name__ so it only connects once idk tho
+        s.close()
+
     return message
         # ======================================================================
 

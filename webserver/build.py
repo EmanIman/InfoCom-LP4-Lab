@@ -86,12 +86,15 @@ def get_order(order_uuid):
 
 @app.route('/track/<order_uuid>', methods=['GET'])
 def track(order_uuid):
-    return redirect(url_for('test', order_uuid=order_uuid))
+    if "." in order_uuid:
+        return redirect(url_for('map'))
+    else:
+        return render_template('track.html')
 
 
-@app.route('/test', methods=['GET'])
-def test(order_uuid):
-    return render_template('track.html', order_uuid=order_uuid)
+@app.route('/map', methods=['GET'])
+def map():
+    return render_template('track.html')
 
 
 if __name__ == "__main__":

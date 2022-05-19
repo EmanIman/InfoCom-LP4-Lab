@@ -41,15 +41,15 @@
 
 <body>
   <p>Tracking Current Position: </p>
-  <!-- <object id="map" data="static/images/lund-map.svg" type="image/svg+xml" ></object> -->
-  <object id="map" data="" type="image/svg+xml" ></object>
+  <object id="map" data="static/images/lund-map.svg" type="image/svg+xml" ></object>
+  <!-- <object id="map" data="" type="image/svg+xml" ></object> -->
   <script>
-    const obj = document.getElementById('map');
-    const svg = "static/images/lund-map.svg";
+    // const obj = document.createElement('object');
+    // const svg = "static/images/lund-map.svg";
     
-    obj.setAttribute('id', 'map');
-    var svgUrl = URL.createObjectURL(new Blob([svg], {'type':'image/svg+xml'}));
-    obj.setAttribute('data', svgUrl);
+    // obj.setAttribute('id', 'map');
+    // var svgUrl = URL.createObjectURL(new Blob([svg], {'type':'image/svg+xml'}));
+    // obj.setAttribute('data', svgUrl);
     
     var set_delay = 50,
     callout = function () {

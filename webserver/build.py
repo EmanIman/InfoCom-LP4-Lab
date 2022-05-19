@@ -13,6 +13,8 @@ app.secret_key = 'dljsaklqk24e21cjn!Ew@@dsa5'
 redis_server = redis.Redis("localhost", decode_responses=True, charset="unicode_escape")
 # ===============================================
 
+uuid: str = ""
+
 # Translate OSM coordinate (longitude, latitude) to SVG coordinates (x,y).
 # Input coords_osm is a tuple (longitude, latitude).
 def translate(coords_osm):
@@ -80,18 +82,19 @@ def get_order(order_uuid):
 
     return jsonify(drone_dict)
 
-@app.route('/track/<order_uuid>', methods=['GET'])
-def track(order_uuid):
-    return render_template('track.html')
-
 # @app.route('/track/<order_uuid>', methods=['GET'])
 # def track(order_uuid):
-#     if "." in order_uuid:
-#         return redirect(url_for(order_uuid))
-#     else:
-#         return render_template('track.html')
+#     return render_template('track.html')
 
+@app.route('/track/<order_uuid>', methods=['GET'])
+def track(order_uuid):
+    global uuid
+    uuid = order_uuid
+    return redirect('track_map')
 
+@app.route('/track_map', methods=['GET'])
+def track_map():
+    return render_template('track.html', order_uuid=uuid)
 
 if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0', port='5000')

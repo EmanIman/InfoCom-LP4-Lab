@@ -19,7 +19,8 @@ def send_order(redis_server):
     while True:
         sleep(1)
         if not q.empty():
-            print(q)
+            print("\n -------------------------- \n Current Queue")
+            print(list(q.queue))
             order = q.get()
 
             drones = {"Test": '10.11.44.126', "drone124": '10.11.44.124'}
@@ -37,8 +38,8 @@ def send_order(redis_server):
                     drone_ip = v
                     break
 
-            coords = get_coords(order)
-            send_request("http://" + drone_ip + ":5000", coords)
+                coords = get_coords(order)
+                send_request("http://" + drone_ip + ":5000", coords)
 
 
 def main():
@@ -55,14 +56,14 @@ def main():
         print(f"connection from {address}")
 
         order = clientsocket.recv(1024)
-        print("---------------------------------------------------------------------------")
+        print("\n --------------------------------------------------------------------------- \n Order: \n")
         print(order)
 
         order = order.decode()
         order = json.loads(order, object_hook=Order.from_json)
         q.put(order)
-        print("Queue is ----------->")
-        print(q)
+        print("\n -------------------------- \n Current Queue")
+        print(list(q.queue))
 
 
 

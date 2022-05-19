@@ -7,15 +7,15 @@ import json
 import redis
 from order import Order
 
-def send_request(drone_url, coords):
+def send_request(drone_url: str, coords: dict[str, float]) -> None:
     with requests.Session() as session:
         resp = session.post(drone_url, json=coords)
 
-def get_coords(order):
+def get_coords(order: Order) -> dict[str, float]:
     return {'from' : order.coordinatesFrom, 'to' : order.coordinatesTo}
 
 
-def send_order(redis_server):
+def send_order(redis_server: redis.Redis) -> None:
     while True:
         sleep(1)
         drones = {"Test": '10.11.44.126', "drone124": '10.11.44.124'}
@@ -30,18 +30,23 @@ def send_order(redis_server):
 
                 if drone_info['status'] == 'idle':
                     if not q.empty(): 
-                        order = q.get()
+                        order: Order = q.get()
                         
                         print("\n -------------------------- \n Current Queue After Get")
                         print(list(q.queue))    
                         
                         drone_ip = v
                         coords = get_coords(order)
+                        drone_info['uuid'] = order.order_uuid
+                        
                         print(f"\nFound Drone: {drone_info['id']} sending order to it\n")
+                        print(f"Order uuid is: {drone_info['uuid']}\n")
+                        redis_server.set(k, json.dumps(drone_info))
+                        
                         send_request("http://" + drone_ip + ":5000", coords)
 
 
-def main():
+def main() -> None:
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.bind((socket.gethostname(), 1234))
     s.listen(3)

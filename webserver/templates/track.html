@@ -46,7 +46,7 @@
     var set_delay = 50,
     callout = function () {
     $.ajax({
-      url: 'http://10.11.44.125:5000/get_order/${order_uuid}' // right amount of brackets? changed to one pair
+      url: 'http://10.11.44.125:5000/get_order/${{order_uuid}}' // right amount of brackets? changed to one pair
     })
     .done(function (server_response) {
         var avalaible_drones = Object.keys(server_response)

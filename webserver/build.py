@@ -87,14 +87,10 @@ def get_order(order_uuid):
 @app.route('/track/<order_uuid>', methods=['GET'])
 def track(order_uuid):
     if "." in order_uuid:
-        return redirect(url_for('get_map'))
+        return redirect(url_for(order_uuid))
     else:
         return render_template('track.html')
 
-
-@app.route('/map', methods=['GET'])
-def get_map():
-    return render_template('track.html')
 
 
 if __name__ == "__main__":

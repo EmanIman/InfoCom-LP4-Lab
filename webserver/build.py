@@ -75,7 +75,7 @@ def get_order(order_uuid):
     for d in drones:
         drone_info = redis_server.get(d)
         drone_info = json.loads(drone_info)
-        
+
         if drone_info['uuid'] == order_uuid:
             translated = translate((float(drone_info['long']), float(drone_info['lat'])))
             drone_dict[d] = {'longitude': translated[0], 'latitude': translated[1], 'status': drone_info['status'], 'uuid': drone_info['uuid']}
@@ -84,7 +84,7 @@ def get_order(order_uuid):
 
 @app.route('/track/<order_uuid>', methods=['GET'])
 def track(order_uuid):
-    return render_template('track.html')
+    return render_template('track.html', order_uuid=order_uuid)
 
 if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0', port='5000')

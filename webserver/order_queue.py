@@ -18,28 +18,28 @@ def get_coords(order):
 def send_order(redis_server):
     while True:
         sleep(1)
-        if not q.empty():
-            print("\n -------------------------- \n Current Queue")
-            print(list(q.queue))
-            order = q.get()
-
-            drones = {"Test": '10.11.44.126', "drone124": '10.11.44.124'}
-            drone_ip = None
-            for k, v in drones.items():
-                print(k)
-                drone_info = redis_server.get(k)
-                print(drone_info)
-                
-                if drone_info == None:
-                    break    
-
+        drones = {"Test": '10.11.44.126', "drone124": '10.11.44.124'}
+        drone_ip = None
+        for k, v in drones.items():
+            print(k)
+            drone_info = redis_server.get(k)
+            print(drone_info)
+            
+            if drone_info != None:    
                 drone_info = json.loads(drone_info)
-                if drone_info['status'] == 'idle':
-                    drone_ip = v
-                    break
 
-                coords = get_coords(order)
-                send_request("http://" + drone_ip + ":5000", coords)
+                if drone_info['status'] == 'idle':
+                    print(f"\nFound Drone: {drone_info['id']} sending order to it\n")
+                    
+                    if not q.empty(): 
+                        order = q.get()
+                        
+                        print("\n -------------------------- \n Current Queue After Get")
+                        print(list(q.queue))    
+                        
+                        drone_ip = v
+                        coords = get_coords(order)
+                        send_request("http://" + drone_ip + ":5000", coords)
 
 
 def main():
@@ -71,3 +71,40 @@ def main():
 if __name__ == '__main__':
     q = queue.Queue()
     main()
+
+
+
+
+
+
+
+"""
+
+Old garbage code might need it for backup tho
+
+def send_order(redis_server):
+    while True:
+        sleep(1)
+        if not q.empty():
+            print("\n -------------------------- \n Current Queue")
+            print(list(q.queue))
+            order = q.get()
+
+            drones = {"Test": '10.11.44.126', "drone124": '10.11.44.124'}
+            drone_ip = None
+            for k, v in drones.items():
+                print(k)
+                drone_info = redis_server.get(k)
+                print(drone_info)
+                
+                if drone_info == None:
+                    break    
+
+                drone_info = json.loads(drone_info)
+                if drone_info['status'] == 'idle':
+                    drone_ip = v
+                    break
+
+                coords = get_coords(order)
+                send_request("http://" + drone_ip + ":5000", coords)
+"""

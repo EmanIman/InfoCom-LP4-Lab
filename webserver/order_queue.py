@@ -6,12 +6,13 @@ import requests
 import json
 import redis
 from order import Order
+from typing import Dict
 
-def send_request(drone_url: str, coords: dict[str, float]) -> None:
+def send_request(drone_url: str, coords: Dict[str, float]) -> None:
     with requests.Session() as session:
         resp = session.post(drone_url, json=coords)
 
-def get_coords(order: Order) -> dict[str, float]:
+def get_coords(order: Order) -> Dict[str, float]:
     return {'from' : order.coordinatesFrom, 'to' : order.coordinatesTo}
 
 

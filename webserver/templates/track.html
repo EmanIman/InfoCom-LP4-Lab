@@ -49,10 +49,20 @@
       url: 'http://0.0.0.0:5000/get_order/${{order_uuid}}' // right amount of brackets?
     })
     .done(function (server_response) {
-      var order = JSON.parse(server_response)['{{order_uuid}}'];
-      if (order == null) console.log("no such order ${order_uuid}");
-      else if (order.status == "queue") console.log("drone ${order_uuid} in queue");
-      else console.log("drone for {{order_uuid}}: ${order.drone}");
+        var avalaible_drones = Object.keys(server_response)
+        for (const droneID of avalaible_drones){
+            var x = server_response[droneID].longitude
+            var y = server_response[droneID].latitude
+            var status = server_response[droneID].status
+            LoadDrone(droneID, x, y, status)
+        }
+
+
+      // old code 
+      //   var order = JSON.parse(server_response)['{{order_uuid}}'];
+      //   if (order == null) console.log("no such order ${order_uuid}");
+      //   else if (order.status == "queue") console.log("drone ${order_uuid} in queue");
+      // else console.log("drone for {{order_uuid}}: ${order.drone}");
       //var avalaible_drones = Object.keys(server_response)
       // for (const droneID of avalaible_drones){
       //   var x = server_response[droneID].longitude

@@ -50,20 +50,17 @@ def get_drones():
     # use function translate() to covert the coodirnates to svg coordinates
     #=============================================================================================================================================
     drone_dict = {}
-    # drones = ["Test", "drone124"]
     drones = ["drone124", "Test"]
     
     for d in drones:
-        info = redis_server.get(d)
-        if info == None:
-            info = {'long': 13.21008, 'lat': 55.71106, 'status': 'idle', 'id': d}
-            redis_server.set(f"{d}", json.dumps(info))
+        drone_info = redis_server.get(d)
+        if drone_info == None:
+            drone_info = {'long': 13.21008, 'lat': 55.71106, 'status': 'idle', 'id': d, 'uuid': ''}
+            redis_server.set(f"{d}", json.dumps(drone_info))
         else:
-            info = json.loads(info)
-        translated = translate((float(info['long']), float(info['lat'])))
-        drone_dict[d] = {'longitude': translated[0], 'latitude': translated[1], 'status': info['status']}
-
-
+            drone_info = json.loads(drone_info)
+        translated = translate((float(drone_info['long']), float(drone_info['lat'])))
+        drone_dict[d] = {'longitude': translated[0], 'latitude': translated[1], 'status': drone_info['status'], 'uuid': drone_info['uuid']}
 
     return jsonify(drone_dict)
 
@@ -72,7 +69,18 @@ def get_order(order_uuid):
     # if order is being processed: return drone json stuff
     # else: 
     #return(http.HTTPStatus.NO_CONTENT) # kanske inte funkar
-    return('', 204)
+    drone_dict = {}
+    drones = ["drone124", "Test"]
+    
+    for d in drones:
+        drone_info = redis_server.get(d)
+        drone_info = json.loads(drone_info)
+        
+        if drone_info['uuid'] == order_uuid:
+            translated = translate((float(drone_info['long']), float(drone_info['lat'])))
+            drone_dict[d] = {'longitude': translated[0], 'latitude': translated[1], 'status': drone_info['status'], 'uuid': drone_info['uuid']}
+
+    return jsonify(drone_dict)
 
 @app.route('/track/<order_uuid>', methods=['GET'])
 def track(order_uuid):

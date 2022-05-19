@@ -23,14 +23,12 @@ def send_order(redis_server):
         for k, v in drones.items():
             print(k)
             drone_info = redis_server.get(k)
-            print(drone_info)
+            # print(drone_info)
             
             if drone_info != None:    
                 drone_info = json.loads(drone_info)
 
                 if drone_info['status'] == 'idle':
-                    print(f"\nFound Drone: {drone_info['id']} sending order to it\n")
-                    
                     if not q.empty(): 
                         order = q.get()
                         
@@ -39,6 +37,7 @@ def send_order(redis_server):
                         
                         drone_ip = v
                         coords = get_coords(order)
+                        print(f"\nFound Drone: {drone_info['id']} sending order to it\n")
                         send_request("http://" + drone_ip + ":5000", coords)
 
 

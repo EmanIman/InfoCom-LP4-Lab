@@ -88,7 +88,7 @@ def get_order(order_uuid):
 
 @app.route('/track', methods=['GET'])
 def track():
-    return render_template('index.html')
+    return render_template('track.html')
 
 if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0', port='5000')

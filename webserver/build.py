@@ -1,7 +1,5 @@
-from os import fdopen
-from flask import Flask, render_template, request
+from flask import Flask, redirect, render_template, url_for
 from flask.json import jsonify
-# from flask_socketio import SocketIO, emit
 from flask_cors import CORS
 import redis
 import json
@@ -82,13 +80,19 @@ def get_order(order_uuid):
 
     return jsonify(drone_dict)
 
+# @app.route('/track/<order_uuid>', methods=['GET'])
+# def track(order_uuid):
+#     return render_template('track.html')
+
 @app.route('/track/<order_uuid>', methods=['GET'])
 def track(order_uuid):
-    return render_template('track.html')
+    return redirect(url_for(test, order_uuid=order_uuid))
 
-@app.route('/track', methods=['GET'])
-def track():
-    return render_template('track.html')
+
+@app.route('/test', methods=['GET'])
+def test(order_uuid):
+    return render_template('track.html', order_uuid=order_uuid)
+
 
 if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0', port='5000')

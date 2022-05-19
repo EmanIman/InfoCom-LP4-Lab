@@ -80,16 +80,16 @@ def get_order(order_uuid):
 
     return jsonify(drone_dict)
 
-# @app.route('/track/<order_uuid>', methods=['GET'])
-# def track(order_uuid):
-#     return render_template('track.html')
-
 @app.route('/track/<order_uuid>', methods=['GET'])
 def track(order_uuid):
-    if "." in order_uuid:
-        return redirect(url_for(order_uuid))
-    else:
-        return render_template('track.html')
+    return render_template('track.html')
+
+# @app.route('/track/<order_uuid>', methods=['GET'])
+# def track(order_uuid):
+#     if "." in order_uuid:
+#         return redirect(url_for(order_uuid))
+#     else:
+#         return render_template('track.html')
 
 
 

@@ -42,19 +42,11 @@
 <body>
   <p>Tracking Current Position: </p>
   <object id="map" data="static/images/lund-map.svg" type="image/svg+xml" ></object>
-  <!-- <object id="map" data="" type="image/svg+xml" ></object> -->
   <script>
-    // const obj = document.createElement('object');
-    // const svg = "static/images/lund-map.svg";
-    
-    // obj.setAttribute('id', 'map');
-    // var svgUrl = URL.createObjectURL(new Blob([svg], {'type':'image/svg+xml'}));
-    // obj.setAttribute('data', svgUrl);
-    
     var set_delay = 50,
     callout = function () {
     $.ajax({
-      url: 'http://10.11.44.125:5000/get_order/{{order_uuid}}' // right amount of brackets? changed to one pair
+      url: 'http://10.11.44.125:5000/get_order/{{order_uuid}}' // right amount of brackets? removed $
     })
     .done(function (server_response) {
         var avalaible_drones = Object.keys(server_response)

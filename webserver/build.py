@@ -82,19 +82,19 @@ def get_order(order_uuid):
 
     return jsonify(drone_dict)
 
-# @app.route('/track/<order_uuid>', methods=['GET'])
-# def track(order_uuid):
-#     return render_template('track.html')
-
 @app.route('/track/<order_uuid>', methods=['GET'])
 def track(order_uuid):
-    global uuid
-    uuid = order_uuid
-    return redirect('track_map')
+    return render_template('track.html')
 
-@app.route('/track_map', methods=['GET'])
-def track_map():
-    return render_template('track.html', order_uuid=uuid)
+# @app.route('/track/<order_uuid>', methods=['GET'])
+# def track(order_uuid):
+#     global uuid
+#     uuid = order_uuid
+#     return redirect('track_map')
+
+# @app.route('/track_map', methods=['GET'])
+# def track_map():
+#     return render_template('track.html', order_uuid=uuid)
 
 if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0', port='5000')

@@ -86,7 +86,7 @@ def get_order(order_uuid):
 
 @app.route('/track/<order_uuid>', methods=['GET'])
 def track(order_uuid):
-    return redirect(url_for(test, order_uuid=order_uuid))
+    return redirect(url_for('test', order_uuid=order_uuid))
 
 
 @app.route('/test', methods=['GET'])

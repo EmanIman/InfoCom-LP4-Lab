@@ -42,16 +42,14 @@
 <body>
   <p>Tracking Current Position: </p>
   <!-- <object id="map" data="static/images/lund-map.svg" type="image/svg+xml" ></object> -->
+  <object id="map" data="" type="image/svg+xml" ></object>
   <script>
-    const app = document.getElementById('root');
-    const obj = document.createElement('object');
+    const obj = document.getElementById('map');
     const svg = "static/images/lund-map.svg";
     
     obj.setAttribute('id', 'map');
     var svgUrl = URL.createObjectURL(new Blob([svg], {'type':'image/svg+xml'}));
     obj.setAttribute('data', svgUrl);
-
-    app.appendChild(obj);
     
     var set_delay = 50,
     callout = function () {

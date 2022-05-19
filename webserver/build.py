@@ -82,8 +82,12 @@ def get_order(order_uuid):
 
     return jsonify(drone_dict)
 
-@app.route('/track/<order_uuid>', methods=['GET'])
-def track(order_uuid):
+# @app.route('/track/<order_uuid>', methods=['GET'])
+# def track(order_uuid):
+#     return render_template('index.html')
+
+@app.route('/track', methods=['GET'])
+def track():
     return render_template('index.html')
 
 if __name__ == "__main__":

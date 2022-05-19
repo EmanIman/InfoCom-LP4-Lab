@@ -13,7 +13,7 @@ def send_request(drone_url: str, coords: Dict[str, float]) -> None:
         resp = session.post(drone_url, json=coords)
 
 def get_coords(order: Order) -> Dict[str, float]:
-    return {'from' : order.coordinatesFrom, 'to' : order.coordinatesTo}
+    return {'from' : order.coordinatesFrom, 'to' : order.coordinatesTo, 'uuid': order.order_uuid}
 
 
 def send_order(redis_server: redis.Redis) -> None:
@@ -22,7 +22,7 @@ def send_order(redis_server: redis.Redis) -> None:
         drones = {"Test": '10.11.44.126', "drone124": '10.11.44.124'}
         drone_ip = None
         for k, v in drones.items():
-            print(k)
+            # print(k)
             drone_info = redis_server.get(k)
             # print(drone_info)
             
@@ -38,11 +38,11 @@ def send_order(redis_server: redis.Redis) -> None:
                         
                         drone_ip = v
                         coords = get_coords(order)
-                        drone_info['uuid'] = order.order_uuid
                         
                         print(f"\nFound Drone: {drone_info['id']} sending order to it\n")
-                        print(f"Order uuid is: {drone_info['uuid']}\n")
-                        redis_server.set(k, json.dumps(drone_info))
+                        # drone_info['uuid'] = order.order_uuid
+                        # print(f"Order uuid is: {drone_info['uuid']}\n")
+                        # redis_server.set(k, json.dumps(drone_info))
                         
                         send_request("http://" + drone_ip + ":5000", coords)
 

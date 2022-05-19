@@ -27,7 +27,8 @@ def send_location(SERVER_URL, id, drone_coords, status):
         drone_info = {'id': id,
                       'longitude': drone_coords[0],
                       'latitude': drone_coords[1],
-                       'status': status
+                       'status': status,
+                       'uuid': uuid
                     }
         resp = session.post(SERVER_URL, json=drone_info)
 
@@ -86,11 +87,14 @@ if __name__ == "__main__":
     parser.add_argument("--tlong", help ='longitude of input [to address]' ,type=float)
     parser.add_argument("--tlat", help ='latitude of input [to address]' ,type=float)
     parser.add_argument("--id", help ='drones ID' ,type=str)
+    parser.add_argument("--uuid", help='order uuid', type=str)
     args = parser.parse_args()
 
     current_coords = (args.clong, args.clat)
     from_coords = (args.flong, args.flat)
     to_coords = (args.tlong, args.tlat)
+
+    uuid = args.uuid
 
     print(current_coords, from_coords, to_coords)
     drone_long, drone_lat = run(args.id, current_coords, from_coords, to_coords, SERVER_URL)

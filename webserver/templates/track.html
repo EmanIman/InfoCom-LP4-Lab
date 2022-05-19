@@ -3,7 +3,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta charset="utf-8">
-  <title>Drone in Lund</title>
+  <title>Track drone in Lund</title>
   <script type="text/javascript" src="https://d3js.org/d3.v3.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>  
   <script type="text/javascript">
@@ -40,13 +40,13 @@
 </head>
 
 <body>
-  <p>Current Position: </p>
+  <p>Tracking Current Position: </p>
   <object id="map" data="static/images/lund-map.svg" type="image/svg+xml" ></object>
   <script>
     var set_delay = 50,
     callout = function () {
     $.ajax({
-      url: 'http://0.0.0.0:5000/get_order/${{order_uuid}}' // right amount of brackets?
+      url: 'http://10.11.44.125:5000/get_order/${{order_uuid}}' // right amount of brackets?
     })
     .done(function (server_response) {
         var avalaible_drones = Object.keys(server_response)

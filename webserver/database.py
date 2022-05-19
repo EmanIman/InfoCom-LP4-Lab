@@ -19,14 +19,14 @@ def drone():
     drone_longitude = drone['longitude']
     drone_latitude = drone['latitude']
     drone_status = drone['status']
-    uuid = drone['uuid']
+    # uuid = drone['uuid']
     # Get the infomation of the drone in the request, and update the information in Redis database
     # Data that need to be stored in the database: 
     # Drone ID, logitude of the drone, latitude of the drone, drone's IP address, the status of the drone
     # Note that you need to store the metioned infomation for all drones in Redis, think carefully how to store them
     # =========================================================================================
-    info = {'long': drone_longitude, 'lat': drone_latitude, 'status': drone_status, 'ip': droneIP, 'id': droneID, 'uuid': uuid} 
-    redis_server.set(f"{droneID}", json.dumps(info))
+    drone_info = {'long': drone_longitude, 'lat': drone_latitude, 'status': drone_status, 'ip': droneIP, 'id': droneID, 'uuid': ''} 
+    redis_server.set(f"{droneID}", json.dumps(drone_info))
     # =======================================================================================
     return 'Get data'
 

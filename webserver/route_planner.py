@@ -77,7 +77,7 @@ def route_planner():
         # redis_server.rpush("OrderQueue", order)
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         s.connect((socket.gethostname(), 1234))
-        s.send(order)
+        s.send(order.encode())
 
         # maybe dont need this and can move the connection part to if __name__ so it only connects once idk tho
         s.close()

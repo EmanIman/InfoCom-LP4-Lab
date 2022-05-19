@@ -2,14 +2,14 @@ import queue
 import socket
 import threading
 from time import sleep
-# import requests
+import requests
 import json
 import redis
 from order import Order
 
-# def send_request(drone_url, coords):
-#     with requests.Session() as session:
-#         resp = session.post(drone_url, json=coords)
+def send_request(drone_url, coords):
+    with requests.Session() as session:
+        resp = session.post(drone_url, json=coords)
 
 def get_coords(order):
     return {'from' : order.coordinatesFrom, 'to' : order.coordinatesTo}
@@ -38,7 +38,7 @@ def send_order(redis_server):
                     break
 
             coords = get_coords(order)
-            # send_request("http://" + drone_ip + ":5000", coords)
+            send_request("http://" + drone_ip + ":5000", coords)
 
 
 def main():
@@ -57,9 +57,12 @@ def main():
         order = clientsocket.recv(1024)
         print("---------------------------------------------------------------------------")
         print(order)
-        
+
+        order = order.decode()
         order = json.loads(order, object_hook=Order.from_json)
         q.put(order)
+        print("Queue is ----------->")
+        print(q)
 
 
 

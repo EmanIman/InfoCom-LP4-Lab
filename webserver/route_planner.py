@@ -4,7 +4,7 @@ from geopy.geocoders import Nominatim
 from flask_cors import CORS
 import redis
 import json
-import requests
+# import requests
 from order import Order
 import socket
 
@@ -21,9 +21,9 @@ geolocator = Nominatim(user_agent="my_request")
 region = ", Lund, Skåne, Sweden"
 
 # Example to send coords as request to the drone
-def send_request(drone_url, coords):
-    with requests.Session() as session:
-        resp = session.post(drone_url, json=coords)
+# def send_request(drone_url, coords):
+#     with requests.Session() as session:
+#         resp = session.post(drone_url, json=coords)
 
 @app.route('/planner', methods=['POST'])
 def route_planner():

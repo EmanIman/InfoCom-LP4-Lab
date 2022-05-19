@@ -64,27 +64,27 @@ def get_drones():
 
     return jsonify(drone_dict)
 
-# @app.route('/get_order/<order_uuid>', methods=['GET'])
-# def get_order(order_uuid):
-#     # if order is being processed: return drone json stuff
-#     # else: 
-#     #return(http.HTTPStatus.NO_CONTENT) # kanske inte funkar
-#     drone_dict = {}
-#     drones = ["drone124", "Test"]
+@app.route('/get_order/<order_uuid>', methods=['GET'])
+def get_order(order_uuid):
+    # if order is being processed: return drone json stuff
+    # else: 
+    #return(http.HTTPStatus.NO_CONTENT) # kanske inte funkar
+    drone_dict = {}
+    drones = ["drone124", "Test"]
     
-#     for d in drones:
-#         drone_info = redis_server.get(d)
-#         drone_info = json.loads(drone_info)
+    for d in drones:
+        drone_info = redis_server.get(d)
+        drone_info = json.loads(drone_info)
 
-#         if drone_info['uuid'] == order_uuid:
-#             translated = translate((float(drone_info['long']), float(drone_info['lat'])))
-#             drone_dict[d] = {'longitude': translated[0], 'latitude': translated[1], 'status': drone_info['status'], 'uuid': drone_info['uuid']}
+        if drone_info['uuid'] == order_uuid:
+            translated = translate((float(drone_info['long']), float(drone_info['lat'])))
+            drone_dict[d] = {'longitude': translated[0], 'latitude': translated[1], 'status': drone_info['status'], 'uuid': drone_info['uuid']}
 
-#     return jsonify(drone_dict)
+    return jsonify(drone_dict)
 
-# @app.route('/track/<order_uuid>', methods=['GET'])
-# def track(order_uuid):
-#     return render_template('track.html', order_uuid=order_uuid)
+@app.route('/track/<order_uuid>', methods=['GET'])
+def track(order_uuid):
+    return render_template('index.html')
 
 if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0', port='5000')

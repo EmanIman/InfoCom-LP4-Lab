@@ -6,7 +6,7 @@ from time import sleep
 
 
 def getMovement(src, dst):
-    speed = 0.0001          # divide by 10 to get back original speed
+    speed = 0.00001          # divide by 10 to get back original speed
     dst_x, dst_y = dst
     x, y = src
     direction = math.sqrt((dst_x - x)**2 + (dst_y - y)**2)
@@ -43,7 +43,7 @@ def run(id, current_coords, from_coords, to_coords, SERVER_URL):
 
     # Move from current_coords to from_coords 
     d_long, d_la =  getMovement(drone_coords, from_coords)
-    while distance(drone_coords, from_coords) > 0.0008:      #change back distance
+    while distance(drone_coords, from_coords) > 0.0004:      #change back distance
         drone_coords = moveDrone(drone_coords, d_long, d_la)
         send_location(SERVER_URL, id=id, drone_coords=drone_coords, status='busy')
         sleep(0.1)
@@ -54,7 +54,7 @@ def run(id, current_coords, from_coords, to_coords, SERVER_URL):
 
     # Move from from_coords to to_coords
     d_long, d_la =  getMovement(drone_coords, to_coords)
-    while distance(drone_coords, to_coords) > 0.0008:  #change back distance
+    while distance(drone_coords, to_coords) > 0.0004:  #change back distance
         
         drone_coords = moveDrone(drone_coords, d_long, d_la)
         

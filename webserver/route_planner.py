@@ -71,10 +71,10 @@ def route_planner():
             message = 'Got address and placed order in queue'
         order = Order.from_coords(coords)
         print("-----------------------------------------------------------")
+        uu: str = order.order_uuid
         order = order.to_json()
         print("Order Created")
-        print(order)
-        # redis_server.rpush("OrderQueue", order)
+        print(f"http://localhost:5000/track/{uu}")
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         s.connect((socket.gethostname(), 1234))
         s.send(order.encode())
